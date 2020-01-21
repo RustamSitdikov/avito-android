@@ -1,0 +1,176 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Test Runner"><meta property="og:title" content="Test Runner"><meta property="og:description" content="Avito test runner This is the Gradle plugin to run Android instrumentation tests.
+It can do the following:
+ Filter tests by annotations, by packages, by previous runs. Run tests in parallel. It orchestrates emulators in Kubernetes or uses local emulators. Rerun failed tests to deal with flakiness Save tests result in a report.
+It uses an internal TMS (test management system). We are working on support other formats.  Getting started  Apply the instrumentation-tests gradle plugin Add to your build."><meta property="og:type" content="article"><meta property="og:url" content="https://avito-tech.github.io/avito-android/docs/test/runner/"><title>Test Runner | Avito Android</title><link rel=icon href=/avito-android/favicon.ico type=image/x-icon><link rel=stylesheet href=/avito-android/book.min.66d2f6926159dd697150bdcd901eead56a7adc9408513ccb9ab553939262dd4c.css integrity="sha256-ZtL2kmFZ3WlxUL3NkB7q1Wp63JQIUTzLmrVTk5Ji3Uw="><script defer src=/avito-android/en.search.min.b669f138cdfdf17aeb2e3f10045621f8bf500ef81fc7f253bebdba57bc5e6aad.js integrity="sha256-tmnxOM398XrrLj8QBFYh+L9QDvgfx/JTvr26V7xeaq0="></script><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','UA-157613383-1','auto');ga('send','pageview');}</script><script async src=https://www.google-analytics.com/analytics.js></script></head><body><input type=checkbox class=hidden id=menu-control><main class="container flex"><aside class=book-menu><nav><h2 class=book-brand><a href=/avito-android><span>Avito Android</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner spinner hidden"></div><ul id=book-search-results></ul></div><ul><li><a href=https://avito-tech.github.io/avito-android/>Introduction</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/tech_radar/techradar/>Tech radar</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/knownissues/>Known Issues</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/contacts/>Contacts</a></li><li>Projects<ul><li><a href=https://avito-tech.github.io/avito-android/docs/projects/buildchecks/>Build checks</a></li></ul></li><li>Contributing<ul><li><a href=https://avito-tech.github.io/avito-android/docs/contributing/howtostart/>How to start</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/contributing/docs/>Documentation</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/contributing/codereview/>Code Review</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/contributing/codestyle/>Code Style</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/contributing/featuretoggles/>Feature Toggles</a></li></ul></li><li>IDE<ul><li><a href=https://avito-tech.github.io/avito-android/docs/ide/configurations/>Конфигурации</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/ide/templates/>Шаблоны</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/ide/speedup/>Ускорение</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/ide/benchmarking/>Бенчмарки</a></li></ul></li><li>Сборка<ul><li><a href=https://avito-tech.github.io/avito-android/docs/ide/configurations/>Запуск</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/assemble/buildtypes/>Типы сборки</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/assemble/dependencies/>Зависимости</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/assemble/minimization/>Минимизация</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/assemble/benchmarks/>Бенчмарки</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/assemble/profiling/>Профилирование</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/assemble/buildmetrics/>Метрики</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/assemble/mirakle/>Mirakle</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/assemble/troubleshooting/>Troubleshooting</a></li></ul></li><li>Architecture<ul><li><a href=https://avito-tech.github.io/avito-android/docs/architecture/dagger/>Dagger</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/architecture/modules/>Модули</a></li></ul></li><li><a href=https://avito-tech.github.io/avito-android/docs/analytics/analytics/>Аналитика</a><ul><li><a href=https://avito-tech.github.io/avito-android/docs/analytics/statsd/>Statsd</a></li></ul></li><li>Testing<ul><li><a href=https://avito-tech.github.io/avito-android/docs/test/run/>Запуск тестов</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/test/manual/>Ручное</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/test/testmanagementsystem/>Test Management System</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/test/testcaseincode/>Test case in code</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/test/runner/>Test Runner</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/test/unittesting/>Юнит тесты</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/test/screenshottesting/>Скриншотные тесты</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/test/testminimized/>Test minimized</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/test/reportviewer/>Report Viewer</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/test/troubleshootingui/>Troubleshooting</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/test/workmanager/>Work Manager Testing</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/test/flakytests/>Flaky Tests</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/test/toast/>Toast</a></li></ul></li><li><a href=https://avito-tech.github.io/avito-android/docs/test_framework/testframework/>Test framework</a><ul><li><a href=https://avito-tech.github.io/avito-android/docs/test_framework/mocking/>Mocking</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/test_framework/internals/>Internals</a></li></ul></li><li><a href=http://links.k.avito.ru/ff>Design System</a></li><li>Performance<ul><li><a href=https://avito-tech.github.io/avito-android/docs/performance/analytics/>Аналитика</a></li></ul></li><li>Checks<ul><li><a href=https://avito-tech.github.io/avito-android/docs/checks/androidlint/>Android lint</a></li></ul></li><li>CI<ul><li><a href=https://avito-tech.github.io/avito-android/docs/ci/civalues/>Требования</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/ci/cigradleplugin/>CI Gradle Plugin</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/ci/customgradleplugins/>Custom Gradle Plugins</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/ci/impactanalysis/>Impact analysis</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/ci/containers/>Containers</a></li></ul></li><li>CD<ul><li><a href=https://avito-tech.github.io/avito-android/docs/cd/release/>Релиз</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/cd/artifacts/>Артефакты сборки</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/cd/qapps/>QApps</a></li></ul></li><li><a href=https://avito-tech.github.io/avito-android/docs/infrastructure/>Infrastructure (Github project)</a></li><li><a href=https://avito-tech.github.io/avito-android/docs/externallibrarychangeprocess/>Внешние библиотеки</a></li><li><a href=/avito-android/posts/>Blog</a></li></ul></nav><script>(function(){var menu=document.querySelector("aside.book-menu nav");addEventListener("beforeunload",function(event){localStorage.setItem("menu.scrollTop",menu.scrollTop);});menu.scrollTop=localStorage.getItem("menu.scrollTop");})();</script></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/avito-android/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>Test Runner</strong>
+<label for=toc-control><img src=/avito-android/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><input type=checkbox class=hidden id=toc-control><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#getting-started>Getting started</a></li><li><a href=#examples>Examples</a></li><li><a href=#filtering-tests-for-execution>Filtering tests for execution</a><ul><li><a href=#filter-tests-by-annotations>Filter tests by annotations</a></li><li><a href=#filter-tests-by-prefix-or-name>Filter tests by prefix or name</a></li><li><a href=#filter-tests-by-statuses-from-previous-run-on-the-same-commit>Filter tests by statuses from previous run on the same commit</a></li><li><a href=#filter-tests-by-statuses-from-report-by-id>Filter tests by statuses from report by id</a></li><li><a href=#apply-a-filter-without-changing-buildgradlekts>Apply a filter without changing build.gradle.kts</a></li><li><a href=#customize-a-filter-without-changing-buildgradlekts>Customize a filter without changing build.gradle.kts</a></li></ul></li><li><a href=#choosing-target-for-tests-execution>Choosing target for tests execution</a><ul><li><a href=#run-tests-on-kubernetes-target-from-a-local-machine>Run tests on kubernetes target from a local machine</a></li><li><a href=#run-tests-on-local-emulator-target>Run tests on local emulator target</a></li></ul></li><li><a href=#run-test-on-apk-was-built-before>Run test on APK was built before</a></li></ul></nav></aside></header><article class=markdown><h1 id=avito-test-runner>Avito test runner</h1><p>This is the Gradle plugin to run Android instrumentation tests.</p><p>It can do the following:</p><ul><li>Filter tests by annotations, by packages, by previous runs.</li><li>Run tests in parallel. It orchestrates emulators in Kubernetes or uses local emulators.</li><li>Rerun failed tests to deal with flakiness</li><li>Save tests result in a report.<br>It uses an internal TMS (test management system). We are working on support other formats.</li></ul><h2 id=getting-started>Getting started</h2><ol><li>Apply the instrumentation-tests gradle plugin
+Add to your build.gradle.kts</li></ol><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin>plugins {
+    id(<span style=color:#e6db74>&#34;com.android.application&#34;</span>)
+    id(<span style=color:#e6db74>&#34;com.avito.android.instrumentation-tests&#34;</span>)
+}
+</code></pre></div><ol start=2><li>Add common plugin configuration</li></ol><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin>extensions.getByType&lt;GradleInstrumentationPluginConfiguration&gt;().apply {
+    <span style=color:#75715e>// they are required for Avito app. We will make them optional in future.
+</span><span style=color:#75715e></span>    reportApiUrl = <span style=color:#e6db74>&#34;http://stub&#34;</span>
+    reportApiFallbackUrl = <span style=color:#e6db74>&#34;http://stub&#34;</span>
+    reportViewerUrl = <span style=color:#e6db74>&#34;http://stub&#34;</span>
+    registry = <span style=color:#e6db74>&#34;registry&#34;</span>
+    sentryDsn = <span style=color:#e6db74>&#34;http://stub-project@stub-host/0&#34;</span>
+    slackToken = <span style=color:#e6db74>&#34;stub&#34;</span>
+    fileStorageUrl = <span style=color:#e6db74>&#34;http://stub&#34;</span>
+
+    configurationsContainer.register(<span style=color:#e6db74>&#34;Local&#34;</span>) {
+        tryToReRunOnTargetBranch = <span style=color:#66d9ef>false</span>
+
+        targetsContainer.register(<span style=color:#e6db74>&#34;api27&#34;</span>) {
+            deviceName = <span style=color:#e6db74>&#34;API27&#34;</span>
+
+            scheduling = SchedulingConfiguration().apply {
+                quota = QuotaConfiguration().apply {
+                    retryCount = <span style=color:#ae81ff>1</span>
+                    minimumSuccessCount = <span style=color:#ae81ff>1</span>
+                }
+
+                reservation = TestsBasedDevicesReservationConfiguration().apply {
+                    device = LocalEmulator.device(<span style=color:#ae81ff>27</span>)
+                    maximum = <span style=color:#ae81ff>1</span>
+                    minimum = <span style=color:#ae81ff>1</span>
+                    testsPerEmulator = <span style=color:#ae81ff>1</span>
+                }
+            }
+        }
+    }
+}
+</code></pre></div><ol start=3><li>Run tests via gradle task</li></ol><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>    ./gradlew :&lt;projectPath&gt;:instrumentation&lt;ConfigurationName&gt;           
+</code></pre></div><p>In our case:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>    ./gradlew :&lt;projectPath&gt;:instrumentationLocal 
+</code></pre></div><h2 id=examples>Examples</h2><p>Check out a configuration to run in <code>GradleInstrumentationPluginConfiguration</code> in the <a href=https://github.com/avito-tech/avito-android/blob/develop/subprojects/android-test/test-app/build.gradle.kts#L114>test app</a></p><h2 id=filtering-tests-for-execution>Filtering tests for execution</h2><ol start=0><li><a href=#getting-started>You must apply a plugin</a></li><li>Create filter</li></ol><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin>extensions.getByType&lt;GradleInstrumentationPluginConfiguration&gt;().apply {
+    filters.register(<span style=color:#e6db74>&#34;filterName&#34;</span>) {
+        fromSource.includeByAnnotations(annotations)
+        fromSource.excludeByAnnotations(annotations)
+        fromSource.includeByPrefixes(prefixes)
+        fromSource.excludeByPrefixes(prefixes)
+        
+        <span style=color:#75715e>// it is internal for Avito. It uses run history from our test-report system.
+</span><span style=color:#75715e></span>        fromRunHistory.excludePreviousStatuses(statuses)
+        fromRunHistory.excludePreviousStatuses(statuses)
+        fromRunHistory.report(<span style=color:#e6db74>&#34;reportId&#34;</span>) { reportStatuses -&gt;
+            reportStatuses.include(statuses)
+            reportStatuses.exclude(statuses)
+        }
+    }
+}
+</code></pre></div><ol start=2><li>Add filter to configuration</li></ol><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin>extensions.getByType&lt;GradleInstrumentationPluginConfiguration&gt;().apply {
+    configurationsContainer.register(<span style=color:#e6db74>&#34;Local&#34;</span>) {
+        filter = <span style=color:#e6db74>&#34;filterName&#34;</span>
+        <span style=color:#75715e>// else...   
+</span><span style=color:#75715e></span>    }    
+}
+</code></pre></div><h3 id=filter-tests-by-annotations>Filter tests by annotations</h3><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin>extensions.getByType&lt;GradleInstrumentationPluginConfiguration&gt;().apply {
+    filters.register(<span style=color:#e6db74>&#34;filterName&#34;</span>) {
+        <span style=color:#66d9ef>val</span> yourFullyQualifiedAnnotationName = <span style=color:#e6db74>&#34;package.AnnotationClassName&#34;</span>
+        
+        <span style=color:#66d9ef>val</span> annotations = setOf(youFullyQualifiedAnnotationName)
+        <span style=color:#75715e>// will include only tests with at least one annotation
+</span><span style=color:#75715e></span>        fromSource.includeByAnnotations(annotations)
+        <span style=color:#75715e>// will exclude all tests with at least one annotation
+</span><span style=color:#75715e></span>        fromSource.excludeByAnnotations(annotations)
+    }
+}
+</code></pre></div><h3 id=filter-tests-by-prefix-or-name>Filter tests by prefix or name</h3><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin>extensions.getByType&lt;GradleInstrumentationPluginConfiguration&gt;().apply {
+    filters.register(<span style=color:#e6db74>&#34;filterName&#34;</span>) {
+        <span style=color:#66d9ef>val</span> packageTestFilter = <span style=color:#e6db74>&#34;testPackage&#34;</span>
+        <span style=color:#66d9ef>val</span> classTestFilter = <span style=color:#e6db74>&#34;testPackage.testClass&#34;</span>
+        <span style=color:#66d9ef>val</span> fullyQualifiedTestFilter = <span style=color:#e6db74>&#34;testPackage.testClass.testMetod&#34;</span>
+        <span style=color:#66d9ef>val</span> prefixes = setOf(packageTestFilter, classTestFilter, fullyQualifiedTestFilter)
+        <span style=color:#75715e>// will include only tests from package, class and concrete test
+</span><span style=color:#75715e></span>        fromSource.includeByPrefixes(prefixes)
+        
+        <span style=color:#75715e>// will exclude all tests from package, class and concrete test
+</span><span style=color:#75715e></span>        fromSource.excludeByPrefixes(prefixes)
+    }
+}
+</code></pre></div><h3 id=filter-tests-by-statuses-from-previous-run-on-the-same-commit>Filter tests by statuses from previous run on the same commit</h3><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin><span style=color:#66d9ef>import</span> com.avito.instrumentation.configuration.InstrumentationFilter.FromRunHistory.RunStatus
+
+extensions.getByType&lt;GradleInstrumentationPluginConfiguration&gt;().apply {
+    filters.register(<span style=color:#e6db74>&#34;filterName&#34;</span>) {
+        <span style=color:#66d9ef>val</span> statuses = setOf(RunStatus.Success)
+        
+        <span style=color:#75715e>// will run only Success previously Succeed tests
+</span><span style=color:#75715e></span>        fromRunHistory.includePreviousStatuses(statuses)
+        <span style=color:#75715e>// will run all tests except previously Succeed
+</span><span style=color:#75715e></span>        fromRunHistory.excludePreviousStatuses(statuses)
+    }
+}
+</code></pre></div><h3 id=filter-tests-by-statuses-from-report-by-id>Filter tests by statuses from report by id</h3><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin><span style=color:#66d9ef>import</span> com.avito.instrumentation.configuration.InstrumentationFilter.FromRunHistory.RunStatus
+
+extensions.getByType&lt;GradleInstrumentationPluginConfiguration&gt;().apply {
+    filters.register(<span style=color:#e6db74>&#34;filterName&#34;</span>) {
+        <span style=color:#75715e>// report-viewer report id
+</span><span style=color:#75715e></span>        <span style=color:#66d9ef>val</span> reportId = <span style=color:#e6db74>&#34;id&#34;</span>
+        <span style=color:#66d9ef>val</span> statuses = setOf(RunStatus.Failed)
+        
+        fromRunHistory.report(reportId) { reportStatuses -&gt;
+            <span style=color:#75715e>// will run only Failed tests from report 
+</span><span style=color:#75715e></span>            reportStatuses.include(statuses)
+            <span style=color:#75715e>// will run all tests except Failed tests from report
+</span><span style=color:#75715e></span>            reportStatuses.exclude(statuses)
+        }
+    }
+}
+</code></pre></div><h3 id=apply-a-filter-without-changing-buildgradlekts>Apply a filter without changing <code>build.gradle.kts</code></h3><ol><li>Add custom gradle property for filter name to gradle.properties file</li></ol><pre><code class=language-properties data-lang=properties>filterName=&quot;filterName&quot;
+</code></pre><ol start=2><li>Use the property to configure plugin</li></ol><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin><span style=color:#66d9ef>val</span> filterName <span style=color:#66d9ef>by</span> project
+
+extensions.getByType&lt;GradleInstrumentationPluginConfiguration&gt;().apply {
+    configurationsContainer.register(<span style=color:#e6db74>&#34;Local&#34;</span>) {
+        filter = filterName
+        <span style=color:#75715e>// else...   
+</span><span style=color:#75715e></span>    }    
+}
+</code></pre></div><ol start=3><li>Add <code>property</code> to CLI command if you want to override <code>filterName</code></li></ol><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>./gradlew instrumentationLocal -PfilterName<span style=color:#f92672>=</span>&lt;any name of defined filter&gt;
+</code></pre></div><h3 id=customize-a-filter-without-changing-buildgradlekts>Customize a filter without changing <code>build.gradle.kts</code></h3><p>You can customize everything by adding custom properties to CLI command e.g.</p><ol><li>You have <a href=#filter-tests-by-annotations>filter including tests by annotation</a></li><li>Add logic to check presence of gradle property.</li></ol><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin><span style=color:#66d9ef>val</span> includedAnnotation: String? <span style=color:#66d9ef>by</span> project
+ 
+extensions.getByType&lt;GradleInstrumentationPluginConfiguration&gt;().apply {
+    filters.register(<span style=color:#e6db74>&#34;filterName&#34;</span>) {
+        <span style=color:#66d9ef>val</span> annotation = <span style=color:#66d9ef>if</span>(includedAnnotation != <span style=color:#66d9ef>null</span>){
+            includedAnnotation
+        } <span style=color:#66d9ef>else</span> {
+            <span style=color:#e6db74>&#34;package.AnnotationClassName&#34;</span>
+        }
+        
+        <span style=color:#66d9ef>val</span> annotations = setOf(<span style=color:#66d9ef>annotation</span>)
+        fromSource.includeByAnnotations(annotations)
+    }
+}
+</code></pre></div><ol start=3><li>Run gradle task with property <code>includedAnnotation</code> to override filter</li></ol><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>./gradlew instrumentationLocal -PincludedAnnotation<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;package.AnotherAnnotationClassName&#34;</span>
+</code></pre></div><h2 id=choosing-target-for-tests-execution>Choosing target for tests execution</h2><h3 id=run-tests-on-kubernetes-target-from-a-local-machine>Run tests on kubernetes target from a local machine</h3><blockquote class="book-hint info">This text contains Avito specific details</blockquote><ol><li>Get access to kubernetes cloud: <a href=http://links.k.avito.ru/Kubectl>internal doc</a></li><li><a href=http://links.k.avito.ru/androidEmulatorServiceDesk>Request</a> <code>exec</code> access to <code>android-emulator</code> namespace in <code>beta</code> cluster</li><li>Setup a context on <code>beta</code>, <code>android-emulator</code> with your user access.<br>More about kubernetes context: <a href=https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/#define-clusters-users-and-contexts>Official docs</a></li><li>Add a configuration with target on kubernetes</li></ol><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin>TBD
+</code></pre></div><ol><li>Run tests with extra parameters specified. The example for <code>:test-app</code>:</li></ol><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>./gradlew :subprojects:android-test:test-app:instrumentationUi 
+    -Pci<span style=color:#f92672>=</span>true 
+    -PkubernetesContext<span style=color:#f92672>=</span>&lt;your context&gt;
+    -PkubernetesCaCertFile<span style=color:#f92672>=</span>&lt;path to ca certificate file&gt;
+    -Pavito.registry<span style=color:#f92672>=</span>&lt;avito registry&gt;
+</code></pre></div><h3 id=run-tests-on-local-emulator-target>Run tests on local emulator target</h3><ol start=0><li>Add a configuration with target on local emulator</li></ol><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin>configurationsContainer.register(<span style=color:#e6db74>&#34;Local&#34;</span>) {
+
+        targetsContainer.register(<span style=color:#e6db74>&#34;api27&#34;</span>) {
+            deviceName = <span style=color:#e6db74>&#34;API27&#34;</span>
+
+            scheduling = SchedulingConfiguration().apply {
+                quota = QuotaConfiguration().apply {
+                    retryCount = <span style=color:#ae81ff>1</span>
+                    minimumSuccessCount = <span style=color:#ae81ff>1</span>
+                }
+
+                reservation = TestsBasedDevicesReservationConfiguration().apply {
+                    device = LocalEmulator.device(<span style=color:#ae81ff>27</span>)
+                    maximum = <span style=color:#ae81ff>1</span>
+                    testsPerEmulator = <span style=color:#ae81ff>1</span>
+                }
+            }
+        }
+    }
+</code></pre></div><ol><li>Run an emulator with 27 API</li><li>Run gradle CLI command</li></ol><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=color:#e6db74>`</span>./gradlew :&lt;project gradle path&gt;:instrumentation&lt;configuration name&gt;<span style=color:#e6db74>`</span>, e.g.
+<span style=color:#e6db74>`</span>./gradlew :subprojects:android-test:test-app:instrumentationLocal<span style=color:#e6db74>`</span>
+</code></pre></div><h2 id=run-test-on-apk-was-built-before>Run test on APK was built before</h2><p>Plugin builds APKs on his own by default.<br>If for any reason you have to build APK externally, you can pass files manually:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-kotlin data-lang=kotlin><span style=color:#75715e>// optional
+</span><span style=color:#75715e></span>applicationApk = <span style=color:#e6db74>&#34;/path/to/app.apk&#34;</span>
+<span style=color:#75715e>// optional
+</span><span style=color:#75715e></span>testApplicationApk = <span style=color:#e6db74>&#34;/path/to/test-app-debug-androidTest.apk&#34;</span>
+</code></pre></div></article><footer class=book-footer><div class="flex justify-between"><div><a class="flex align-center" href=https://github.com/avito-tech/avito-android/tree/develop/docs/content/docs/test/Runner.md target=_blank rel=noopener><img src=/avito-android/svg/edit.svg class=book-icon alt=Edit>
+<span>Edit this page</span></a></div><div><a class="flex justify-end" href=/avito-android/docs/contacts><span>Contact us</span></a></div></div><div class=book-comments></div></footer></div><aside class=book-toc><nav id=TableOfContents><ul><li><a href=#getting-started>Getting started</a></li><li><a href=#examples>Examples</a></li><li><a href=#filtering-tests-for-execution>Filtering tests for execution</a><ul><li><a href=#filter-tests-by-annotations>Filter tests by annotations</a></li><li><a href=#filter-tests-by-prefix-or-name>Filter tests by prefix or name</a></li><li><a href=#filter-tests-by-statuses-from-previous-run-on-the-same-commit>Filter tests by statuses from previous run on the same commit</a></li><li><a href=#filter-tests-by-statuses-from-report-by-id>Filter tests by statuses from report by id</a></li><li><a href=#apply-a-filter-without-changing-buildgradlekts>Apply a filter without changing build.gradle.kts</a></li><li><a href=#customize-a-filter-without-changing-buildgradlekts>Customize a filter without changing build.gradle.kts</a></li></ul></li><li><a href=#choosing-target-for-tests-execution>Choosing target for tests execution</a><ul><li><a href=#run-tests-on-kubernetes-target-from-a-local-machine>Run tests on kubernetes target from a local machine</a></li><li><a href=#run-tests-on-local-emulator-target>Run tests on local emulator target</a></li></ul></li><li><a href=#run-test-on-apk-was-built-before>Run test on APK was built before</a></li></ul></nav></aside></main></body></html>
